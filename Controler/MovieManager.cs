@@ -1,4 +1,5 @@
-﻿using MovieAppWIthFileStructure.Models;
+﻿using MovieAppWIthFileStructure.Exceptions;
+using MovieAppWIthFileStructure.Models;
 using MovieAppWIthFileStructure.Services;
 using System;
 using System.Collections.Generic;
@@ -15,21 +16,25 @@ namespace MovieAppWIthFileStructure.Controler
         
         public static Movie FindMovie(int id)
         {
-            if(movies.Count != 0)
-            {
-                return movies.Where(movie => movie.MovieId == id).FirstOrDefault();
+
+            Movie movie = movies.Where(movie => movie.MovieId == id).FirstOrDefault();
+
+            if (movie == null) {
+                throw new InvalidIdException("Invalid Id!");
             }
-            return null;
+            return movie;
+        }
+        public static void CheckMovieStackIsEmpty()
+        {
+            if (movies.Count == 0)
+            {
+                throw new MovieStackFullException("Movie stack is Empty!");
+            }
         }
 
-        public static string SendMovieInfo(int id)
+        public static string SendMovieInfo(Movie movie)
         {
-            Movie movie = FindMovie(id);
-            if(movie != null)
-            {
-                return MovieServices.DisplayMovies(movie);
-            }
-            return "Enter Valid Id!";
+            return MovieServices.DisplayMovies(movie);
         }
 
         public static string ClearingAllMovieInfo()
@@ -39,9 +44,18 @@ namespace MovieAppWIthFileStructure.Controler
 
         public static string AddingNewMovie(int mId,string mName,string mGenre,int mYear)
         {
+
             Movie movie = new Movie(mId, mName, mGenre, mYear);
             movies.Add(movie);
             return "Movie Added Sucessfully!";
+        }
+
+        public static void CheckMovieStackIsFull()
+        {
+            if (movies.Count == 5)
+            {
+                throw new MovieStackFullException("Movie stack is full!");
+            }
         }
 
         public static void StoreMovie()

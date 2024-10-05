@@ -55,24 +55,49 @@ namespace MovieAppWIthFileStructure.Presentation
 
         public static void DisplayMovie()
         {
-            Console.WriteLine("Enter Movie ID:");
-            int id = int.Parse(Console.ReadLine());
-            Console.WriteLine(MovieManager.SendMovieInfo(id));
+            try
+            {
+                MovieManager.CheckMovieStackIsEmpty();
+                Console.WriteLine("Enter Movie ID:");
+                int id = int.Parse(Console.ReadLine());
+                try
+                {
+                    Movie movie = MovieManager.FindMovie(id);
+                    Console.WriteLine(MovieManager.SendMovieInfo(movie));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"{e.Message}");
+                    return;
+                }
+            }
+            catch (Exception e) {
+                Console.WriteLine(e.Message);
+            }
+            
         }
 
         public static void AddMovie()
         {
-            Console.WriteLine("Enter movie Id:\n");
-            int id = int.Parse(Console.ReadLine());
-            Console.WriteLine("Enter movie name:\n");
-            string name = Console.ReadLine();
-            Console.WriteLine("Enter genre of movie:\n");
-            string genre = Console.ReadLine();
-            Console.WriteLine("Enter release year of movie:\n");
-            int year = int.Parse(Console.ReadLine());
+            try
+            {
+                MovieManager.CheckMovieStackIsFull();
 
+                Console.WriteLine("Enter movie Id:\n");
+                int id = int.Parse(Console.ReadLine());
+                Console.WriteLine("Enter movie name:\n");
+                string name = Console.ReadLine();
+                Console.WriteLine("Enter genre of movie:\n");
+                string genre = Console.ReadLine();
+                Console.WriteLine("Enter release year of movie:\n");
+                int year = int.Parse(Console.ReadLine());
+
+                Console.WriteLine(MovieManager.AddingNewMovie(id, name, genre, year));
+            }
+            catch (Exception e) {
+                Console.WriteLine(e.Message);
+            }
             
-            Console.WriteLine(MovieManager.AddingNewMovie(id,name,genre,year));
         }
     }
 }

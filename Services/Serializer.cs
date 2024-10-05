@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Protocols;
+using MovieAppWIthFileStructure.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MovieAppWIthFileStructure.Models
+namespace MovieAppWIthFileStructure.Services
 {
     internal class Serializer
     {
